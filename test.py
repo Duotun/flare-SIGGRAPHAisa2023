@@ -146,7 +146,7 @@ if __name__ == '__main__':
 
     ### Read the views
     print("loading test views...")
-    dataset_val      = DatasetLoader(args, train_dir=args.eval_dir, sample_ratio=args.sample_idx_ratio, pre_load=True)
+    dataset_val      = DatasetLoader(args, train_dir=args.eval_dir, sample_ratio=args.sample_idx_ratio, pre_load=True, split='test')
     dataloader_validate = torch.utils.data.DataLoader(dataset_val, batch_size=4, collate_fn=dataset_val.collate, shuffle=False)
 
     ### init flame and deformation

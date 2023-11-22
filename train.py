@@ -365,7 +365,9 @@ def main(args, device, dataset_train, dataloader_train, debug_views, FLAMEServer
     if args.finetune_color:        
         ## ============== free memory before evaluation ==============================
         del dataset_train, dataloader_train, debug_views, views_subset
-
+        
+        # please run test.py to produce testing results to avoid potential out of memory problem
+        '''
         print("=="*50)
         print("E V A L U A T I O N")
         print("=="*50)
@@ -374,6 +376,7 @@ def main(args, device, dataset_train, dataloader_train, debug_views, FLAMEServer
 
         quantitative_eval(args, mesh, dataloader_validate, FLAMEServer, deformer_net, shader, renderer, device, channels_gbuffer, experiment_dir
                         , images_eval_save_path / "qualitative_results", lgt=lgt, save_each=True)
+        '''
 
 if __name__ == '__main__':
     parser = config_parser()
@@ -389,8 +392,8 @@ if __name__ == '__main__':
     # load data
     # ==============================================================================================
     print("loading train views...")
-    dataset_train    = DatasetLoader(args, train_dir=args.train_dir, sample_ratio=args.sample_idx_ratio, pre_load=True)
-    dataset_val      = DatasetLoader(args, train_dir=args.eval_dir, sample_ratio=24, pre_load=True)
+    dataset_train    = DatasetLoader(args, train_dir=args.train_dir, sample_ratio=args.sample_idx_ratio, pre_load=True, split='train')
+    dataset_val      = DatasetLoader(args, train_dir=args.eval_dir, sample_ratio=24, pre_load=True, split='test')
     dataloader_train    = torch.utils.data.DataLoader(dataset_train, batch_size=args.batch_size, collate_fn=dataset_train.collate, shuffle=True, drop_last=True)
     view_indices = np.array(args.visualization_views).astype(int)
     d_l = [dataset_val.__getitem__(idx) for idx in view_indices[2:]]

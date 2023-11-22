@@ -27,7 +27,7 @@ if torch.cuda.is_available() and devices >= 0:
     device = torch.device(f'cuda:{devices}')
 
 class DatasetLoader(Dataset):
-    def __init__(self, args, train_dir, sample_ratio, pre_load):
+    def __init__(self, args, train_dir, sample_ratio, pre_load, split='train'):
         self.args = args
         self.train_dir = train_dir
         self.base_dir = args.working_dir / args.input_dir
@@ -46,9 +46,15 @@ class DatasetLoader(Dataset):
                 self.json_dict["frames"].extend(json_data["frames"])
 
         if sample_ratio > 1:
-            self.all_img_path = self.json_dict["frames"][::sample_ratio]
+            if split == 'train':
+                self.all_img_path = self.json_dict["frames"][:-350][::sample_ratio]
+            else:
+                self.all_img_path = self.json_dict["frames"][-350:][::sample_ratio]
         else:
-            self.all_img_path = self.json_dict["frames"]
+            if split == 'train':
+                self.all_img_path = self.json_dict["frames"][:-350]
+            else:
+                self.all_img_path = self.json_dict["frames"][-350:]
 
         self.len_img = len(self.all_img_path)
         test_path = self.base_dir / self.all_img_path[0]["dir"] / Path(self.all_img_path[0]["file_path"] + ".png")
