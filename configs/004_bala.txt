@@ -2,7 +2,7 @@ run_name = subject_004bala
 
 input_dir = data/bala/bala
 train_dir = ["color"]
-eval_dir = ["color_test"]
+eval_dir = ["color"]
 working_dir = 
 output_dir = out/
 

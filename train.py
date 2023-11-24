@@ -367,16 +367,16 @@ def main(args, device, dataset_train, dataloader_train, debug_views, FLAMEServer
         del dataset_train, dataloader_train, debug_views, views_subset
         
         # please run test.py to produce testing results to avoid potential out of memory problem
-        '''
+        
         print("=="*50)
         print("E V A L U A T I O N")
         print("=="*50)
-        dataset_val      = DatasetLoader(args, train_dir=args.eval_dir, sample_ratio=1, pre_load=True)
+        dataset_val      = DatasetLoader(args, train_dir=args.eval_dir, sample_ratio=1, pre_load=True, split='test')
         dataloader_validate = torch.utils.data.DataLoader(dataset_val, batch_size=4, collate_fn=dataset_val.collate)
 
         quantitative_eval(args, mesh, dataloader_validate, FLAMEServer, deformer_net, shader, renderer, device, channels_gbuffer, experiment_dir
                         , images_eval_save_path / "qualitative_results", lgt=lgt, save_each=True)
-        '''
+        
 
 if __name__ == '__main__':
     parser = config_parser()
